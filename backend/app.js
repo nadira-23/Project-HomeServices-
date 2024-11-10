@@ -22,14 +22,19 @@ const serviceRoutes=require('./routes/serviceRoutes');
 const reviewRoutes=require('./routes/reviewRoutes');
 const bookingRoutes=require('./routes/bookingRoutes');
 const cleaningRoutes=require('./routes/cleaningRoutes')
-const auth=require('./routes/auth');
+const adminRoutes=require('./routes/adminRoutes');
+const authRoutes = require('./routes/authRoutes'); 
+
+app.use('/auth', authRoutes); 
 app.use('/servicer', servicerRoutes);
 app.use('/customer',customerRoutes);
 app.use('/service',serviceRoutes);
 app.use('/review',reviewRoutes);
 app.use('/booking',bookingRoutes);
-app.use('/auth',auth)
 app.use('/cleaning',cleaningRoutes)
+app.use('/admin',adminRoutes)
+
+
 
 // Start the server
 app.listen(PORT, () => {

@@ -5,26 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const AboutUs = () => {
   const navigate = useNavigate();
 
-  const teamMembers = [
-    {
-      name: 'John Doe',
-      role: 'CEO & Founder',
-      image: '/images/john.jpg',
-      bio: 'John is the visionary leader of ProHomeConnect, passionate about home services and customer satisfaction.',
-    },
-    {
-      name: 'Jane Smith',
-      role: 'Lead Developer',
-      image: '/images/jane.jpg',
-      bio: 'Jane leads our development team, ensuring our platform is seamless and user-friendly.',
-    },
-    {
-      name: 'Mark Wilson',
-      role: 'Operations Manager',
-      image: '/images/mark.jpg',
-      bio: 'Mark oversees operations, ensuring that everything runs smoothly and efficiently.',
-    },
-  ];
+  
 
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '40px' }}>
@@ -38,7 +19,7 @@ const AboutUs = () => {
         </Typography>
       </Box>
 
-      {/* Company Overview Section */}
+      
       <Box sx={{ marginBottom: '40px' }}>
         <Typography variant="h4" gutterBottom>
           Our Mission
@@ -51,7 +32,7 @@ const AboutUs = () => {
         </Button>
       </Box>
 
-      {/* Company Values Section */}
+      
       <Box sx={{ marginBottom: '40px' }}>
         <Typography variant="h4" gutterBottom>
           Our Values
@@ -90,33 +71,7 @@ const AboutUs = () => {
         </Grid>
       </Box>
 
-      {/* Team Section */}
-      <Box sx={{ marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>
-          Meet Our Team
-        </Typography>
-        <Grid container spacing={4} justifyContent="center">
-          {teamMembers.map((member, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper sx={{ padding: '20px', textAlign: 'center' }}>
-                <Avatar
-                  alt={member.name}
-                  src={member.image}
-                  sx={{ width: 100, height: 100, margin: 'auto', marginBottom: '15px' }}
-                />
-                <Typography variant="h6">{member.name}</Typography>
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {member.role}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" paragraph>
-                  {member.bio}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
+     
       {/* Contact Section */}
       <Box sx={{ textAlign: 'center' }}>
         <Typography variant="h4" gutterBottom>

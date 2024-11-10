@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Box, Typography, Button, Grid, Paper, Card, CardContent, CardMedia } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Services from './Services';
+import axios from 'axios';
+import axiosInstance from '../../axiosinterceotor';
+
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  // Example services data (can be dynamic if fetched from a server)
-  const services = [
-    { title: 'Plumbing', description: 'Expert plumbing services for your home or office.', image: '/images/plumbing.jpg' },
-    { title: 'Electrical', description: 'Safe and reliable electrical repairs and installations.', image: '/images/electrical.jpg' },
-    { title: 'Cleaning', description: 'Thorough and professional cleaning services.', image: '/images/cleaning.jpg' },
-    { title: 'Repairs', description: 'Fast and effective repair services for all kinds of issues.', image: '/images/repairs.jpg' },
-  ];
+    const [rows,setRows]=useState([]);
+   
+    useEffect(()=>{
+     axiosInstance.get('http://localhost:3000/service').then((res)=>{
+    
+        setRows(res.data);
+      })
+    })
+
+ 
 
   return (
     <Container maxWidth="xl" sx={{ paddingTop: '40px' }}>
-      {/* Hero Section */}
+     
       <Box sx={{ textAlign: 'center', marginBottom: '50px' }}>
         <Typography variant="h2" gutterBottom>
           Welcome to ProHomeConnect
@@ -34,21 +41,21 @@ const HomePage = () => {
           Our Featured Services
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {services.map((service, index) => (
+          {rows.map((service, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardMedia
                   component="img"
                   height="140"
-                  image={service.image}
-                  alt={service.title}
+                  image={service.serviceImage}
+                  alt={rows.serviceName}
                 />
                 <CardContent>
                   <Typography variant="h5" component="div">
-                    {service.title}
+                    {service.serviceName}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {service.description}
+                    {service.serviceDescription}
                   </Typography>
                 </CardContent>
                 <Button variant="outlined" size="small" onClick={() => navigate('/services')}>
@@ -60,7 +67,7 @@ const HomePage = () => {
         </Grid>
       </Box>
 
-      {/* About Us Section */}
+     
       <Box sx={{ textAlign: 'center', marginBottom: '50px' }}>
         <Typography variant="h4" gutterBottom>
           About Us
@@ -73,36 +80,25 @@ const HomePage = () => {
         </Button>
       </Box>
 
-      {/* Testimonials Section */}
-      <Box sx={{ backgroundColor: '#333333', padding: '40px 0', textAlign: 'center' }}>
+      
+      <Box sx={{ backgroundColor: '#cccccc', padding: '40px 0', textAlign: 'center' }}>
         <Typography variant="h4" gutterBottom>
           What Our Clients Say
         </Typography>
         <Grid container spacing={4} justifyContent="center">
+          
           <Grid item xs={12} sm={6} md={4}>
             <Paper sx={{ padding: '20px', textAlign: 'center' }}>
               <Typography variant="h6" color="textPrimary">
-                John Doe
+              "Your home, our care , expert services at your doorstep."
               </Typography>
-              <Typography variant="body1" color="textSecondary" paragraph>
-                "ProHomeConnect saved me time and money! The plumber arrived on time and fixed the issue quickly. Highly recommended!"
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper sx={{ padding: '20px', textAlign: 'center' }}>
-              <Typography variant="h6" color="textPrimary">
-                Jane Smith
-              </Typography>
-              <Typography variant="body1" color="textSecondary" paragraph>
-                "Excellent service! The team was professional and courteous. They fixed the electrical issues in no time."
-              </Typography>
+             
             </Paper>
           </Grid>
         </Grid>
       </Box>
 
-      {/* Call-to-Action Section */}
+     
       <Box sx={{ textAlign: 'center', marginBottom: '40px' }}>
         <Typography variant="h4" gutterBottom>
           Ready to Get Started?

@@ -16,8 +16,25 @@ router.get('/',async(req,res)=>{
     }
 });
 
+// In your backend (Node.js/Express)
+router.get('/service/:id', (req, res) => {
+    const { id } = req.params;  // Get the service ID from the URL
+    Service.findById(id)  // Replace with your actual database query
+      .then(service => {
+        if (!service) {
+          return res.status(404).json({ message: 'Service not found' });
+        }
+        res.json(service);  // Send the service data in the response
+      })
+      .catch(error => {
+        console.error('Error fetching service:', error);
+        res.status(500).json({ message: 'Error fetching service details' });
+      });
+  });
+  
 
-router.post('/addservice',async(req,res)=>{
+
+router.post('/add',async(req,res)=>{
     try {
         const service=req.body;
         const newservice=new serviceModel(service);

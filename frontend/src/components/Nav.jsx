@@ -31,11 +31,10 @@ const Nav = () => {
           <nav className="nav" style={{ display: 'flex', gap: '50px',margin:'20px'}}>
             <Link to="/" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>Home</Link>
             <Link to="/about" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>About Us</Link>
-            <Link to="/blog" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>BLOG</Link>
             <Link to="/services" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>Services</Link>
             <Link to="/Login" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>Login</Link>
             <Link to="/Signup" style={{ color: '#333333', textDecoration: 'none', fontWeight: 'bold' }}>Signup</Link>
-            <button style={{backgroundColor:"black",color:'white',borderRadius:"20px"}} type="text">Connect with us</button>
+            <Link to="/Connectus" style={{backgroundColor:"black",color:'white',borderRadius:"20px"}} type="text">Connect with us</Link>
           </nav>
         </Toolbar>
       </AppBar>
