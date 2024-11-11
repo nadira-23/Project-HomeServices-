@@ -12,12 +12,13 @@ import ServiceDetails from './components/ServiceDetails'
 import AddService from './components/AddService'
 import AdminDashboard from './components/Admin'
 import UserManagement from './components/UserManagement'
-import ServiceManage from './components/ServiceManage'
 import BookingManage from './components/BookingManage'
 import ConnectWithUs from './components/Connect'
 import EditService from './components/Edit'
 import Admin from './components/Admin'
 import Booking from './components/Booking'
+import Signup from './components/Signup'
+import ServicerDashboard from './components/ServicerDashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -34,12 +35,13 @@ function App() {
      <Route path="/AddService" element={<AddService />} />
      <Route path="/admin Dashboard" element={<AdminDashboard />} />
      <Route path="/user Management" element={<UserManagement/>} />
-     <Route path="/service Manage" element={<ServiceManage />} />
      <Route path="/BookingManage" element={<BookingManage />} />
      <Route path="/Connectus" element={<ConnectWithUs />} />
      <Route path="/admin" element={<Admin />} />
      <Route path="/Edit" element={<EditService />} />
      <Route path="/Booking" element={<Booking />} />
+     <Route path="/Signup" element={<Signup />} />
+     <Route path="/ServiceDashboard" element={<ServicerDashboard />} />
 </Routes>
     </>
   )

@@ -1,3 +1,4 @@
+// 
 import React, { useEffect, useState } from 'react';
 import { Container, Box, Typography, Button, TextField } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -38,12 +39,14 @@ const Booking = () => {
   return (
     <Container maxWidth="sm" sx={{ paddingTop: '40px' }}>
       <Box sx={{ textAlign: 'center', marginBottom: '40px' }}>
-        <Typography variant="h4" gutterBottom>Book {service.serviceName}</Typography>
+        <Typography variant="h4" gutterBottom sx={{ color: '#005f73' }}>
+          Book {service.serviceName}
+        </Typography>
         <Typography variant="h6" color="textSecondary" paragraph>
           Please provide your details to book this service.
         </Typography>
       </Box>
-      
+
       <Box sx={{ marginBottom: '20px' }}>
         <TextField
           label="Name"
@@ -51,6 +54,14 @@ const Booking = () => {
           fullWidth
           value={bookingDetails.name}
           onChange={(e) => setBookingDetails({ ...bookingDetails, name: e.target.value })}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+            },
+            '& .MuiInputLabel-root': {
+              color: '#00796b',
+            },
+          }}
         />
       </Box>
       <Box sx={{ marginBottom: '20px' }}>
@@ -60,10 +71,30 @@ const Booking = () => {
           fullWidth
           value={bookingDetails.contact}
           onChange={(e) => setBookingDetails({ ...bookingDetails, contact: e.target.value })}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+            },
+            '& .MuiInputLabel-root': {
+              color: '#00796b',
+            },
+          }}
         />
       </Box>
 
-      <Button variant="contained" color="primary" onClick={handleBookingSubmit}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleBookingSubmit}
+        sx={{
+          backgroundColor: '#00796b',
+          '&:hover': { backgroundColor: '#004d40' },
+          padding: '10px 20px',
+          fontWeight: 'bold',
+          width: '100%',
+          borderRadius: '8px',
+        }}
+      >
         Confirm Booking
       </Button>
     </Container>

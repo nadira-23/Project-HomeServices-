@@ -1,3 +1,5 @@
+// 
+
 import React, { useState, useEffect } from 'react';
 import { Container, Box, Typography, Button, Grid, Card, CardMedia, CardContent, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +49,7 @@ const Admin = () => {
   // Delete a service
   const deleteService = (id) => {
     const token = localStorage.getItem('authToken');
-    axios.delete(`http://localhost:3000/admin/service/${id}`, {
+    axios.delete(`http://localhost:3000/service/delete/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -68,41 +70,56 @@ const Admin = () => {
 
   return (
     <Container>
-      <Box sx={{ paddingTop: '20px' }}>
-        <Typography variant="h4" gutterBottom>
+      <Box sx={{ paddingTop: '40px', paddingBottom: '40px' }}>
+        <Typography variant="h4" gutterBottom sx={{ color: '#005f73', textAlign: 'center' }}>
           Admin Dashboard
         </Typography>
-        {error && <Typography color="error">{error}</Typography>}
+        
+        {error && <Typography color="error" sx={{ textAlign: 'center', marginBottom: '20px' }}>{error}</Typography>}
+        
         <Grid container spacing={4}>
           {services.map((service) => (
             <Grid item xs={12} sm={6} md={4} key={service._id}>
-              <Card>
+              <Card sx={{ height: '100%', boxShadow: 3, borderRadius: '8px' }}>
                 <CardMedia
                   component="img"
                   height="140"
                   image={service.serviceImage || '/placeholder.jpg'}
                   alt={service.serviceName}
+                  sx={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
                 />
                 <CardContent>
-                  <Typography variant="h6">{service.serviceName}</Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="h6" sx={{ color: '#005f73' }}>
+                    {service.serviceName}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" paragraph>
                     {service.serviceDescription}
                   </Typography>
                   <Typography variant="body2" color="textPrimary">
-                    Category: {service.serviceCategory}
+                    <strong>Category:</strong> {service.serviceCategory}
                   </Typography>
                   <Typography variant="body2" color="textPrimary">
-                    Price: ${service.price}
+                    <strong>Price:</strong> ${service.price}
                   </Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{ justifyContent: 'space-between' }}>
                   {/* Delete Button */}
-                  <Button size="small" color="error" onClick={() => deleteService(service._id)}>
+                  <Button 
+                    size="small" 
+                    color="error" 
+                    onClick={() => deleteService(service._id)} 
+                    sx={{ color: '#d32f2f', fontWeight: 'bold' }}
+                  >
                     Delete
                   </Button>
 
                   {/* Update Button - Navigates to the update page */}
-                  <Button size="small" color="primary" onClick={() => updateService(service)}>
+                  <Button 
+                    size="small" 
+                    color="primary" 
+                    onClick={() => updateService(service)} 
+                    sx={{ color: '#00796b', fontWeight: 'bold' }}
+                  >
                     Update
                   </Button>
                 </CardActions>
@@ -110,8 +127,15 @@ const Admin = () => {
             </Grid>
           ))}
         </Grid>
-        <Box mt={4}>
-          <Button variant="contained" color="primary" onClick={() => navigate('/AddService')}>
+        
+        {/* Add New Service Button */}
+        <Box mt={4} sx={{ textAlign: 'center' }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => navigate('/AddService')}
+            sx={{ padding: '10px 20px', backgroundColor: '#00796b', '&:hover': { backgroundColor: '#004d40' } }}
+          >
             Add New Service
           </Button>
         </Box>

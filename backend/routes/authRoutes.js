@@ -4,33 +4,33 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user'); // Adjust path if necessary
 
-// Temporary route to register a new admin user
+// Register route with role
 router.post('/register', async (req, res) => {
-    const { username, password, role } = req.body;
-  
-    try {
-      // Hash the password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-  
-      // Create and save the new user
-      const newUser = new User({
-        username,
-        password: hashedPassword,
-        role: role || 'user', // Set role as 'admin' for testing admin login
-      });
-      await newUser.save();
-  
-      res.status(201).json({ msg: 'User registered successfully' });
-    } catch (error) {
-      console.error('Registration error:', error);
-      res.status(500).json({ msg: 'Server error' });
+  const { username, email, password, role } = req.body; // Accept role as part of registration
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: 'User already exists' });
     }
-  });
-  
 
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-// Login route
+    // Create new user with role
+    const newUser = new User({ username, email, password: hashedPassword, role });
+    await newUser.save();
+
+    res.json({ success: true, message: 'Registration successful!' });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ msg: 'Server error during registration' });
+  }
+});
+
+// Login route with role-based token
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -54,7 +54,8 @@ router.post('/login', async (req, res) => {
       expiresIn: '1h', // Token expiry time
     });
 
-    res.json({ token });
+    // Send both the token and the user role back in the response
+    res.json({ token, role: user.role });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ msg: 'Server error' });
@@ -62,3 +63,4 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+

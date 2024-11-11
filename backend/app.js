@@ -16,23 +16,20 @@ require('./db/connection');
 app.use(express.json());
 
 // Import and use course routes
-const servicerRoutes = require('./routes/servicerRoutes');
-const customerRoutes=require('./routes/customerRoutes');
+
+const servicerRoutes=require('./routes/servicerRoutes');
 const serviceRoutes=require('./routes/serviceRoutes');
 const reviewRoutes=require('./routes/reviewRoutes');
 const bookingRoutes=require('./routes/bookingRoutes');
-const cleaningRoutes=require('./routes/cleaningRoutes')
 const adminRoutes=require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes'); 
 
 app.use('/auth', authRoutes); 
-app.use('/servicer', servicerRoutes);
-app.use('/customer',customerRoutes);
 app.use('/service',serviceRoutes);
 app.use('/review',reviewRoutes);
 app.use('/booking',bookingRoutes);
-app.use('/cleaning',cleaningRoutes)
 app.use('/admin',adminRoutes)
+app.use('/servicer', servicerRoutes); 
 
 
 

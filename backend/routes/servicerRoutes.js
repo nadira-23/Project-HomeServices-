@@ -1,80 +1,37 @@
-const express=require ('express');
-const router=express.Router();
-const jwt=require('jsonwebtoken')
+const express = require('express');
+const router = express.Router();
+const servicerAuth = require('../middleware/servicerAuth');
+const Service = require('../models/serviceData');
 
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
-const servicerModel=require('../models/servicerData')
-//adding middleware
-// function verifyToken(req,res,next){
-//     let token=req.headers.token;
-//     try {
-//         if (!token) throw 'Unauthorised Access'
-//         let payload=jwt.verify(token,"secret")
-//         if (!payload) throw 'Unauthorised Access'
-//         next()
-
-//     } catch (error) {
-//        res.json({message:error})
-//     }
-//}
-
-router.post('/login',async(req,res)=>{
-    const user=await servicerModel.findOne({username:req.body.username})
-    if(!user){
-        res.json({message:"servicer not found"})
-    }
-   try{
-        if(user.password==req.body.password)
-       {
-           const payload={uname:req.body.username,pwd:req.body.password}
-            const token=jwt.sign(payload,"secret")
-            res.status(200).send({message:"login successful",usertoken:token})
-        }
-    }
-    catch(error){
-console.log(error)
-   }
-})
-
-router.get('/',async(req,res)=>{
-    try {
-        const servicer=await servicerModel.find()
-        res.status(200).send(servicer);
-    } catch (error) {
-        res.status(404).send('servicer not found');
-        
-    }
+// Get all services assigned to the servicer
+router.get('/services', servicerAuth, async (req, res) => {
+  try {
+    console.log('Authenticated servicer:', req.user);  // Log the authenticated user
+    const services = await Service.find({ servicerId: req.user.id });
+    res.json(services);
+  } catch (err) {
+    console.error("Error fetching services:", err);
+    res.status(500).send('Server Error');
+  }
 });
 
+// Update the status of a service
+router.put('/service/:id', servicerAuth, async (req, res) => {
+  const { status } = req.body;
+  try {
+    const service = await Service.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    if (!service) {
+      return res.status(404).send('Service not found');
+    }
+    res.json(service);
+  } catch (err) {
+    console.error("Error updating service status:", err);
+    res.status(500).send('Server Error');
+  }
+});
 
-router.post('/addservicer',async(req,res)=>{
-    try {
-        const servicer=req.body;
-        const newservicer=new servicerModel(servicer);
-        const savedservicer=await newservicer.save();
-        res.status(200).send('servicer added successfully');
-    } catch (error) {
-        console.error(error); // Log the actual error
-        res.status(404).send('Error adding servicer');
-    }
-});
-router.put('/edit/:id',async(req,res)=>{
-    try {
-        const id=req.params.id;
-        const updatedservicer=await servicerModel.findByIdAndUpdate(id,req.body,{new:true})
-        res.status(200).send('servicer updated successfully');
-    } catch (error) {
-        res.status(404).send('Error updating servicer');
-    }
-});
- router.delete('/delete/:id',async(req,res)=>{
-    try {
-        const id=req.params.id;
-        const deleteservicer=await servicerModel.findByIdAndDelete(id,req.body,{new:true})
-        res.status(200).send('servicer deleted successfully');
-    } catch (error) {
-        res.status(404).send('Error deleting servicer');
-    }
-});
 module.exports = router;
